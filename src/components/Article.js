@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
 
 class Article extends Component {
-    state = {
-        isOpen: true
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isOpen: props.defaultOpen
+        }
     }
     
     render() {
+        console.log(this.props);
         const {article} = this.props;
+        console.log(this.state.isOpen);
         const body = this.state.isOpen && <section className="card-text:last-child">{article.text}</section>
         return (
             <div className = "card mx-auto" style={{width: '60%'}}>
