@@ -8,6 +8,10 @@ class Article extends Component {
             isOpen: props.defaultOpen
         }
     }
+
+    componentWillMount() {
+        console.log('---', 'mounting')
+    }
     
     render() {
         console.log(this.props);
