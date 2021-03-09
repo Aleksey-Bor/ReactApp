@@ -1,28 +1,41 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 
-class Article extends Component {
+class Article extends PureComponent {
     constructor(props) {
         super(props)
 
         this.state = {
-            isOpen: props.defaultOpen
+            isOpen: props.defaultOpen,
+            count: 0
         }
     }
 
-    componentWillMount() {
-        console.log('---', 'mounting')
+   /* shouldComponentUpdate(nextProps, nextState) {
+        return this.state.isOpen !== nextState.isOpen
+    }*/
+
+    UNSAFE_componentWillMount() {
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+       if(nextProps.defaultOpen !== this.props.defaultOpen) this.setState({
+            isOpen: nextProps.defaultOpen
+        }) 
+    }
+    
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
+        console.log('***', 'Will Update')
     }
     
     render() {
-        console.log(this.props);
         const {article} = this.props;
-        console.log(this.state.isOpen);
         const body = this.state.isOpen && <section className="card-text:last-child">{article.text}</section>
         return (
             <div className = "card mx-auto" style={{width: '60%'}}>
                 <div className="card-header">
-                    <h2 className = "Title">
+                    <h2 className = "Title" onClick={this.incrementCounter}>
                         {article.title}
+                        <span className="fs-6 text-decoration-underline ms-3">clicked {this.state.count}</span>
                         <button onClick = {this.handleClick} className="btn btn-primary btn-lg float-end">{this.state.isOpen ? 'Close' : 'Open'}</button>
                     </h2>
                 </div>
@@ -34,6 +47,12 @@ class Article extends Component {
                 </div>
             </div>
         );
+    }
+
+    incrementCounter = () => {
+        this.setState({
+            count: this.state.count + 1
+        })
     }
 
     handleClick = () => {
