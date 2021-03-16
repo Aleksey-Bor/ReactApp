@@ -5,7 +5,6 @@ class Article extends PureComponent {
         super(props)
 
         this.state = {
-            isOpen: props.defaultOpen,
             count: 0
         }
     }
@@ -17,26 +16,26 @@ class Article extends PureComponent {
     UNSAFE_componentWillMount() {
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+   /* UNSAFE_componentWillReceiveProps(nextProps) {
        if(nextProps.defaultOpen !== this.props.defaultOpen) this.setState({
             isOpen: nextProps.defaultOpen
         }) 
-    }
+    }*/
     
     UNSAFE_componentWillUpdate(nextProps, nextState) {
         console.log('***', 'Will Update')
     }
     
     render() {
-        const {article} = this.props;
-        const body = this.state.isOpen && <section className="card-text:last-child">{article.text}</section>
+        const {article, isOpen, onButtonClick} = this.props;
+        const body = isOpen && <section className="card-text:last-child">{article.text}</section>
         return (
-            <div className = "card mx-auto" style={{width: '60%'}}>
+            <div className = "card mx-auto" style={{width: '80%'}}>
                 <div className="card-header">
                     <h2 className = "Title" onClick={this.incrementCounter}>
                         {article.title}
                         <span className="fs-6 text-decoration-underline ms-3">clicked {this.state.count}</span>
-                        <button onClick = {this.handleClick} className="btn btn-primary btn-lg float-end">{this.state.isOpen ? 'Close' : 'Open'}</button>
+                        <button onClick = {onButtonClick} className="btn btn-primary btn-lg float-end">{isOpen ? 'Close' : 'Open'}</button>
                     </h2>
                 </div>
                 <div className="card-body">
@@ -55,11 +54,11 @@ class Article extends PureComponent {
         })
     }
 
-    handleClick = () => {
-        this.setState({        
+    /*handleClick = () => {
+       this.setState({        
             isOpen: !this.state.isOpen
         })
-    }
+    }*/
 }
 
 
